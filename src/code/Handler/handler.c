@@ -21,8 +21,6 @@ void startup(){
 
 void prepare(App* app){
     CreateListDin(&(app->album), 100);
-
-    printf("HALO");
 }
 
 void menu(App* app){

@@ -4,13 +4,13 @@
 
 void startup();
 
-void prepare(); 
+void prepare(App *app); 
 
-void menu(); 
+void menu(App *app); 
 
 void start(); 
 
-void list(const char* command); 
+void list(const char* command, App *app); 
 
 void play(); 
 

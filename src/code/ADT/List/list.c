@@ -70,7 +70,7 @@ void readList(ListDin *l){
 void printList(ListDin l){
     IdxType idx; 
     for(idx = 0; idx < listLength(l); idx++){
-        printf("%d. %s", idx + 1, ELMT(l, idx));
+        printf("%d. %s\n", idx + 1, ELMT(l, idx));
     }
 }
 

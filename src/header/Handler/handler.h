@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <string.h> 
+#include "../app.h"
 
 void startup();
+
+void prepare(); 
 
 void menu(); 
 
 void start(); 
 
-void list(); 
+void list(const char* command); 
 
 void play(); 
 
@@ -22,8 +25,6 @@ void status();
 void saveCommand(); 
 
 void loadCommand(); 
-
-void quit(); 
 
 void help(); 
 

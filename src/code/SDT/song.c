@@ -2,7 +2,6 @@
 #include <string.h>  // For string manipulation functions
 
 void addSong(ListDin *songList, const char *songName) {
-    // Insert the new song into the songList
     insertLast(songList, songName);
 }
 

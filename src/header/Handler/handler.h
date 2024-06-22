@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h> 
 
+void startup();
+
 void menu(); 
 
 void start(); 

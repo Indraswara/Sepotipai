@@ -1,7 +1,8 @@
 #include <stdio.h>
-
+#include "../header/Handler/handler.h"
 
 int main(){
-    printf("This is main");
+    menu();
+
     return 0;
 }

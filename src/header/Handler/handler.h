@@ -5,6 +5,7 @@
 #include <string.h> 
 #include "../app.h"
 #include "../../header/Handler/handlerList.h"
+#include "../../header/Handler/handlerPlay.h"
 #include "../../header/Handler/initializer.h"
 #include "../../shared/boolean.h"
 
@@ -16,7 +17,7 @@ void menu(App *app);
 
 void start(); 
 
-void play(); 
+void play(const char* command, App *app); 
 
 void queue(); 
 

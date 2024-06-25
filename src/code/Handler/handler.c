@@ -36,6 +36,11 @@ void menu(App* app){
             scanf("%s", subcommand); 
             list(subcommand, app);
         }
+        else if(memcmp(input, "PLAY", strlen(input)) == 0){
+            char subcommand[100]; 
+            scanf("%s", subcommand); 
+            play(subcommand, app);
+        }
         else if(memcmp(input, "EXIT", strlen("EXIT")) == 0){
             printf("KELUAR DARI PROGRAM\n");
             break;
@@ -44,3 +49,4 @@ void menu(App* app){
         }
     }
 }
+

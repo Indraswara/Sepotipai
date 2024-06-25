@@ -1,7 +1,14 @@
-
 #include "../../header/SDT/Singer/singer.h"
 
-void createSinger(Singer *singer, int capacity) {
+void createSinger(Singer *singer, const char *name, int capacity) {
+    singer->singerName = malloc(strlen(name) + 1);  // Allocate memory for singer name (+1 for null terminator)
+    if (singer->singerName == NULL){
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    strcpy(singer->singerName, name);
+
     singer->albums = malloc(capacity * sizeof(Album));
     if (singer->albums == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
@@ -10,6 +17,7 @@ void createSinger(Singer *singer, int capacity) {
     singer->numAlbums = 0;
     singer->capacity = capacity;
 }
+
 
 void deallocateSinger(Singer *singer) {
     if (singer->albums != NULL) {
@@ -46,40 +54,39 @@ void addSongToAlbum(Singer *singer, const char *albumName, const char *songTitle
 void printSingerDiscography(const Singer *singer) {
     printf("Singer's Discography:\n");
     for (int i = 0; i < singer->numAlbums; ++i) {
-        printf("Album %d:\n", i + 1);
-        printAlbumSongs(&(singer->albums[i]));
-        printf("\n");
+        printf("%d. %s\n", i + 1, singer->albums->name);
+        // printAlbumSongs(&(singer->albums[i]));
     }
 }
 
 //this is for singers 
-
 void initializeSingers(Singers *singers){
     singers->singers = NULL;
     singers->numSingers = 0;
     singers->capacity = 0;
 }
 
-void addSinger(Singers *singers, int capacity) {
-    // Allocate more memory if needed
+void addSinger(Singers *singers, const char *singerName, int capacity) {
     if (singers->numSingers >= singers->capacity) {
         int newCapacity = (singers->capacity == 0) ? 1 : singers->capacity * 2; // Double the capacity
         Singer *newSingers = realloc(singers->singers, newCapacity * sizeof(Singer));
         if (newSingers == NULL) {
-            printf("Alokasi gagal\n");
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
         }
         singers->singers = newSingers;
         singers->capacity = newCapacity;
     }
-    
+
     // Create the new singer
-    createSinger(&singers->singers[singers->numSingers], capacity);
+    createSinger(&(singers->singers[singers->numSingers]), singerName, capacity);
     singers->numSingers++;
-    printf("Singer berhasil ditambahkan\n");
+    printf("Singer '%s' successfully added.\n", singerName);
 }
 
 
-void deallocateSingersingers(Singers *singers) {
+
+void deallocateSingers(Singers *singers) {
     if (singers->singers != NULL) {
         for (int i = 0; i < singers->numSingers; ++i) {
             deallocateSinger(&singers->singers[i]);

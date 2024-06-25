@@ -64,6 +64,10 @@ void queue(const char* command, App *app) {
         int x, y;
         scanf("%d %d", &x, &y); 
         queueSwap(&(app->queue), x, y);
+    } else if(strcmp(command, "REMOVE") == 0){
+        int id; 
+        scanf("%d", &id); 
+        queueRemove(&(app->queue), id); 
     }
     else if(strcmp(command, "SHOW") == 0){
         printQueue(&(app->queue));

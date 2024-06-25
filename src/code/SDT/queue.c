@@ -161,6 +161,55 @@ void queueSwap(Queue *queue, int x, int y) {
     }
 }
 
+void queueRemove(Queue *queue, int id) {
+    if (id < 0 || id > queue->size) {
+        printf("Lagu atau playlist dengan urutan ke %d tidak ada.\n", id);
+        return;
+    }
+
+    QueueNode *current = queue->head;
+    QueueNode *prev = NULL;
+    int currentId = 1;
+
+    while (current != NULL && currentId != id) {
+        prev = current;
+        current = current->next;
+        currentId++;
+    }
+
+    if (current == NULL) {
+        printf("Lagu atau playlist dengan urutan ke %d tidak ada.\n", id);
+        return;
+    }
+
+    if (prev != NULL) {
+        prev->next = current->next;
+    } else {
+        queue->head = current->next;
+    }
+
+    if (current == queue->tail) {
+        queue->tail = prev;
+    }
+
+    if (current->song != NULL) {
+        free((char *)current->song->songName); 
+        free((char *)current->song->artistName); 
+        free((char *)current->song->albumName); 
+        free(current->song); 
+    } 
+
+    free(current);
+
+    queue->size--;
+    printf("Item dengan urutan ke %d telah dihapus dari queue.\n", id);
+    if(queue->size == 0){
+        initializeQueue(&queue);
+    }
+}
+
+
+
 // Function to deallocate Queue
 void deallocateQueue(Queue *queue) {
     while (queue->size > 0) {

@@ -4,8 +4,8 @@
 #include "../Playlist/playlist.h"
 
 typedef struct QueueNode {
-    Song *song;
-    Playlist *playlist;
+    Song *song;           // Pointer to a Song
+    Playlist *playlist;   // Pointer to a Playlist
     struct QueueNode *next;
 } QueueNode;
 

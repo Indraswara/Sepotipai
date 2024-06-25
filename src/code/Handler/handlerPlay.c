@@ -60,7 +60,7 @@ void playSong(App *app) {
 
     printf("\nLagu untuk album '%s':\n", albumName);
     for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
-        printf("    %d. %s\n", i + 1, app->singers.singers[singerIndex].albums[albumIndex].songs[i]);
+        printf("    %d. %s\n", i + 1, app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName);
     }
 
     printf("Masukkan nomor lagu (1-%d): ", app->singers.singers[singerIndex].albums[albumIndex].size);
@@ -72,7 +72,7 @@ void playSong(App *app) {
     }
 
     songIndex--;
-    const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songIndex];
+    const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songIndex]->songName;
     printf("\nMemulai lagu: %s dari penyanyi: %s, album: %s\n", songName, singerName, albumName);
 }
 

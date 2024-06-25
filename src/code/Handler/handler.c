@@ -58,7 +58,7 @@ void menu(App* app){
 
 void playlist(const char *command, App *app){
     if(strcmp(command, "CREATE") == 0){
-        playlistCreate(&app);    
+        playlistCreate(app);    
     }
     else if(strcmp(command, "SHOW") == 0){
         listPlaylists(&(app->playlists));

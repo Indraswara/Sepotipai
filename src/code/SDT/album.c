@@ -1,24 +1,29 @@
 #include "../../header/SDT/Album/Album.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void createAlbum(Album *album, const char *name, int capacity) {
-    album->name = strdup(name); 
-    album->songs = malloc(capacity * sizeof(const char*)); 
+    album->name = name;
     album->capacity = capacity;
-    album->size = 0; 
+    album->size = 0;
+    album->songs = (Song**)malloc(capacity * sizeof(Song*));
 }
 
 void deallocateAlbum(Album *album) {
-    free((char*)album->name); 
-    free(album->songs);       
-    album->capacity = 0;      
-    album->size = 0;          
+    for (int i = 0; i < album->size; ++i) {
+        destroySong(album->songs[i]);
+        free(album->songs[i]);
+    }
+    free(album->songs);
 }
 
-void insertSong(Album *album, const char *songTitle) {
+void insertSong(Album *album, Song *song) {
     if (album->size < album->capacity) {
-        album->songs[album->size++] = strdup(songTitle); 
+        album->songs[album->size] = song;
+        album->size++;
     } else {
-        printf("Album is full, cannot add more songs.\n");
+        printf("Album is full, cannot insert more songs.\n");
     }
 }
 
@@ -26,6 +31,6 @@ void printAlbumSongs(const Album *album) {
     printf("Album: %s\n", album->name);
     printf("Songs:\n");
     for (int i = 0; i < album->size; ++i) {
-        printf("- %s\n", album->songs[i]);
+        printf("%d. %s by %s\n", album->songs[i]->songID, album->songs[i]->songName, album->songs[i]->artistName);
     }
 }

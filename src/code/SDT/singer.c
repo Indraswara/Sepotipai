@@ -2,7 +2,7 @@
 
 void createSinger(Singer *singer, const char *name, int capacity) {
     singer->singerName = malloc(strlen(name) + 1);  // Allocate memory for singer name (+1 for null terminator)
-    if (singer->singerName == NULL){
+    if (singer->singerName == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
@@ -18,7 +18,6 @@ void createSinger(Singer *singer, const char *name, int capacity) {
     singer->capacity = capacity;
 }
 
-
 void deallocateSinger(Singer *singer) {
     if (singer->albums != NULL) {
         for (int i = 0; i < singer->numAlbums; ++i) {
@@ -28,6 +27,10 @@ void deallocateSinger(Singer *singer) {
         singer->albums = NULL;
         singer->numAlbums = 0;
         singer->capacity = 0;
+    }
+    if (singer->singerName != NULL) {
+        free(singer->singerName);
+        singer->singerName = NULL;
     }
 }
 
@@ -40,11 +43,11 @@ void addAlbum(Singer *singer, const char *albumName, int albumCapacity) {
     }
 }
 
-void addSongToAlbum(Singer *singer, const char *albumName, const char *songTitle) {
+void addSongToAlbum(Singer *singer, const char *albumName, Song *song) {
     // Find the album by name and add the song
     for (int i = 0; i < singer->numAlbums; ++i) {
         if (strcmp(singer->albums[i].name, albumName) == 0) {
-            insertSong(&(singer->albums[i]), songTitle);
+            insertSong(&(singer->albums[i]), song);
             return;
         }
     }
@@ -54,13 +57,13 @@ void addSongToAlbum(Singer *singer, const char *albumName, const char *songTitle
 void printSingerDiscography(const Singer *singer) {
     printf("Singer's Discography:\n");
     for (int i = 0; i < singer->numAlbums; ++i) {
-        printf("%d. %s\n", i + 1, singer->albums->name);
+        printf("%d. %s\n", i + 1, singer->albums[i].name);
+        // Optionally, print each album's songs:
         // printAlbumSongs(&(singer->albums[i]));
     }
 }
 
-//this is for singers 
-void initializeSingers(Singers *singers){
+void initializeSingers(Singers *singers) {
     singers->singers = NULL;
     singers->numSingers = 0;
     singers->capacity = 0;
@@ -84,12 +87,10 @@ void addSinger(Singers *singers, const char *singerName, int capacity) {
     printf("Singer '%s' successfully added.\n", singerName);
 }
 
-
-
 void deallocateSingers(Singers *singers) {
     if (singers->singers != NULL) {
         for (int i = 0; i < singers->numSingers; ++i) {
-            deallocateSinger(&singers->singers[i]);
+            deallocateSinger(&(singers->singers[i]));
         }
         free(singers->singers);
         singers->singers = NULL;

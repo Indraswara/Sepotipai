@@ -1,20 +1,18 @@
 #ifndef ALBUM_H 
 #define ALBUM_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../Song/song.h" // Include the song header file
 
 typedef struct {
     const char* name;
-    const char** songs;
+    Song** songs; // Array of Song pointers
     int capacity;
     int size;
 } Album;
 
 void createAlbum(Album *album, const char *name, int capacity);
 void deallocateAlbum(Album *album);
-void insertSong(Album *album, const char *songTitle);
-void printAlbumSongs(const Album *album); // Updated to pass Album by const reference
+void insertSong(Album *album, Song *song); // Update to accept Song pointer
+void printAlbumSongs(const Album *album);
 
 #endif

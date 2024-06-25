@@ -6,10 +6,15 @@ void initializeQueue(Queue *queue) {
     queue->tail = NULL;
     queue->size = 0;
 }
+
 void enqueueSong(Queue *queue, const char *songName, const char *artistName, const char *albumName, int songID) {
     Song *song = createSong(songName, artistName, albumName, songID);
 
     QueueNode *newNode = (QueueNode *)malloc(sizeof(QueueNode));
+    if (newNode == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
     newNode->song = song;
     newNode->playlist = NULL;
     newNode->next = NULL;
@@ -18,18 +23,18 @@ void enqueueSong(Queue *queue, const char *songName, const char *artistName, con
         queue->head = newNode;
         queue->tail = newNode;
     } else {
-        newNode->next = queue->head->next;
-        queue->head->next = newNode;
-        if (queue->tail == queue->head) {
-            queue->tail = newNode;
-        }
+        queue->tail->next = newNode;
+        queue->tail = newNode;
     }
     queue->size++;
 }
 
-// Function to enqueue Playlist
 void enqueuePlaylist(Queue *queue, Playlist *playlist) {
     QueueNode *newNode = (QueueNode *)malloc(sizeof(QueueNode));
+    if (newNode == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
     newNode->playlist = playlist;
     newNode->song = NULL;
     newNode->next = NULL;
@@ -38,16 +43,12 @@ void enqueuePlaylist(Queue *queue, Playlist *playlist) {
         queue->head = newNode;
         queue->tail = newNode;
     } else {
-        newNode->next = queue->head->next;
-        queue->head->next = newNode;
-        if (queue->tail == queue->head) {
-            queue->tail = newNode;
-        }
+        queue->tail->next = newNode;
+        queue->tail = newNode;
     }
     queue->size++;
 }
 
-// Function to dequeue (remove head)
 void dequeue(Queue *queue) {
     if (queue->size == 0) {
         printf("Queue is empty.\n");
@@ -57,10 +58,7 @@ void dequeue(Queue *queue) {
     QueueNode *temp = queue->head;
     queue->head = queue->head->next;
     if (temp->song) {
-        free((void *)temp->song->songName);
-        free((void *)temp->song->artistName);
-        free((void *)temp->song->albumName);
-        free(temp->song);
+        destroySong(temp->song);
     }
     free(temp);
 
@@ -70,10 +68,9 @@ void dequeue(Queue *queue) {
     }
 }
 
-// Function to print Queue
 void printQueue(Queue *queue) {
     QueueNode *current = queue->head;
-    if(current == NULL){
+    if (current == NULL) {
         printf("QUEUE: kosong\n");
         return;
     }

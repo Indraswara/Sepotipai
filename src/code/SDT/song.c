@@ -1,5 +1,5 @@
 #include "../../header/SDT/Song/song.h"
-#include <string.h>  
+#include <string.h>  // s
 
 Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID) {
     Song *song = (Song *)malloc(sizeof(Song));

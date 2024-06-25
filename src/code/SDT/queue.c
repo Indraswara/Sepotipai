@@ -85,6 +85,10 @@ void dequeue(Queue *queue) {
 // Function to print Queue
 void printQueue(Queue *queue) {
     QueueNode *current = queue->head;
+    if(current == NULL){
+        printf("QUEUE: kosong\n");
+        return;
+    }
     int pos = 1;
     while (current) {
         if (current->song) {
@@ -203,9 +207,6 @@ void queueRemove(Queue *queue, int id) {
 
     queue->size--;
     printf("Item dengan urutan ke %d telah dihapus dari queue.\n", id);
-    if(queue->size == 0){
-        initializeQueue(&queue);
-    }
 }
 
 void queueClear(Queue *queue) {

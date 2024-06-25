@@ -96,7 +96,7 @@ void queuePlaylist(App *app) {
 
     printf("List of Playlists:\n");
     for (int i = 0; i < app->playlists.numPlaylists; i++) {
-        printf("%d. %s\n", i + 1, app->playlists.playlists[i].playlistName);
+        printf("%d. %s\n", i + 1, app->playlists.playlist[i].playlistName);
     }
 
     printf("Masukkan ID Playlist: ");
@@ -104,7 +104,7 @@ void queuePlaylist(App *app) {
     scanf("%d", &playlistID);
 
     if (playlistID > 0 && playlistID <= app->playlists.numPlaylists) {
-        Playlist *playlist = &app->playlists.playlists[playlistID - 1];
+        Playlist *playlist = &app->playlists.playlist[playlistID - 1];
         enqueuePlaylist(&app->queue, playlist);
         printf("Berhasil menambahkan playlist \"%s\" ke queue.\n", playlist->playlistName);
     } else {

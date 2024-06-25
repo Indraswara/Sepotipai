@@ -3,13 +3,6 @@
 
 #include "../Playlist/playlist.h"
 
-typedef struct {
-    const char *songName;
-    const char *artistName;
-    const char *albumName;
-    int songID;
-} Song;
-
 typedef struct QueueNode {
     Song *song;
     Playlist *playlist;

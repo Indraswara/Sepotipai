@@ -91,6 +91,6 @@ void playPlaylist(App *app) {
     }
 
     playlistIndex--;
-    const char *playlistName = app->playlists.playlists[playlistIndex].playlistName;
+    const char *playlistName = app->playlists.playlist[playlistIndex].playlistName;
     printf("\nMemutar playlist '%s'.\n", playlistName);
 }

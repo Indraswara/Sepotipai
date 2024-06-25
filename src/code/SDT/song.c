@@ -1,27 +1,50 @@
 #include "../../header/SDT/Song/song.h"
 #include <string.h>  // For string manipulation functions
 
-void addSong(ListDin *songList, const char *songName) {
-    insertLast(songList, songName);
-}
-
-void deleteSong(ListDin *songList, const char *songName) {
-    IdxType idx;
-    boolean found = false;
-
-    // Search for the songName in the songList
-    for (idx = 0; idx < listLength(*songList); idx++) {
-        if (strcmp(ELMT(*songList, idx), songName) == 0) {
-            // Song found, delete it
-            deleteLast(songList, &ELMT(*songList, idx));
-            found = true;
-            break;
-        }
+Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID) {
+    Song *song = (Song *)malloc(sizeof(Song));
+    if (song == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
     }
 
-    if (!found) {
-        printf("Song '%s' not found.\n", songName);
+    song->songName = (const char *)malloc(strlen(songName) + 1);
+    if (song->songName == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        free(song);
+        exit(EXIT_FAILURE);
     }
+    strcpy((char *)song->songName, songName);
+
+    song->artistName = (const char *)malloc(strlen(artistName) + 1);
+    if (song->artistName == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        free((char *)song->songName);
+        free(song);
+        exit(EXIT_FAILURE);
+    }
+    strcpy((char *)song->artistName, artistName);
+
+    song->albumName = (const char *)malloc(strlen(albumName) + 1);
+    if (song->albumName == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        free((char *)song->artistName);
+        free((char *)song->songName);
+        free(song);
+        exit(EXIT_FAILURE);
+    }
+    strcpy((char *)song->albumName, albumName);
+
+    song->songID = songID;
+
+    return song;
 }
 
-// You can add more functions related to songs here if needed
+void destroySong(Song *song) {
+    if (song != NULL) {
+        free((char *)song->songName);
+        free((char *)song->artistName);
+        free((char *)song->albumName);
+        free(song);
+    }
+}

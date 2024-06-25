@@ -44,6 +44,10 @@ void menu(App* app){
             char subcommand[100]; 
             scanf("%s", subcommand); 
             queue(subcommand, app);
+        }else if(strcmp(input, "PLAYLIST") == 0){
+            char subcommand[100]; 
+            scanf("%s", subcommand); 
+            playlist(subcommand, app);
         }
         else if(memcmp(input, "EXIT", strlen("EXIT")) == 0){
             printf("KELUAR DARI PROGRAM\n");
@@ -53,6 +57,10 @@ void menu(App* app){
             printf("PERINTAH TIDAK ADA\n"); 
         }
     }
+}
+
+void playlist(const char *command, App *app){
+    
 }
 
 

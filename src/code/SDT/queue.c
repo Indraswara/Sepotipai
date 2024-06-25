@@ -6,18 +6,6 @@ void initializeQueue(Queue *queue) {
     queue->tail = NULL;
     queue->size = 0;
 }
-
-// Function to create a new song
-Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID) {
-    Song *newSong = (Song *)malloc(sizeof(Song));
-    newSong->songName = strdup(songName);
-    newSong->artistName = strdup(artistName);
-    newSong->albumName = strdup(albumName);
-    newSong->songID = songID;
-    return newSong;
-}
-
-// Function to enqueue Song
 void enqueueSong(Queue *queue, const char *songName, const char *artistName, const char *albumName, int songID) {
     Song *song = createSong(songName, artistName, albumName, songID);
 

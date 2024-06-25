@@ -1,9 +1,21 @@
-#ifndef _SONG_H
-#define _SONG_H 
+#ifndef SONG_H
+#define SONG_H
 
-#include "../../ADT/List/list.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-void addSong(ListDin *songList, const char* songName);
-void deleteSong(ListDin *songList, const char *songName);
+typedef struct {
+    const char *songName;
+    const char *artistName;
+    const char *albumName;
+    int songID;
+} Song;
 
-#endif 
+// Initialize a song
+Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID);
+
+// Destroy a song
+void destroySong(Song *song);
+
+#endif

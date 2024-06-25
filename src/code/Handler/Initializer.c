@@ -5,6 +5,8 @@ void initializer(App* app){
     initializeSingers(&(app->singers));
     initializePlaylists(&(app->playlists));
 
+    createEmptySong(&(app->currSong));
+
     addSinger(&(app->singers), "Singer One", 10);
     addAlbum(&(app->singers.singers[0]), "First Album", 5);
     addSongToAlbum(&(app->singers.singers[0]), "First Album", "Song A");
@@ -18,8 +20,6 @@ void initializer(App* app){
     addPlaylist(&(app->playlists), "Workout Playlist");
     addPlaylist(&(app->playlists), "Chill Playlist");
 
-    // Example of adding songs to playlists after initialization
     addSongToPlaylist(&(app->playlists.playlist[0]), "Song A", "Singer One", "First Album", 1);
     addSongToPlaylist(&(app->playlists.playlist[0]), "Song X", "Singer Two", "Second Album", 1);
-
 }

@@ -1,5 +1,5 @@
 #include "../../header/SDT/Song/songManager.h"
-#include <string.h>  // For string manipulation functions
+#include <string.h> 
 
 void addSong(ListDin *songList, const char *songName) {
     insertLast(songList, songName);
@@ -23,5 +23,3 @@ void deleteSong(ListDin *songList, const char *songName) {
         printf("Song '%s' not found.\n", songName);
     }
 }
-
-// You can add more functions related to songs here if needed

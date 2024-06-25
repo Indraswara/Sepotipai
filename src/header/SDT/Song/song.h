@@ -12,10 +12,9 @@ typedef struct {
     int songID;
 } Song;
 
-// Initialize a song
+void createEmptySong(Song *song);
+void changeValue(Song *song, const char *defaultSongName, const char *defaultArtistName, const char *defaultAlbumName, int defaultSongID);
 Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID);
-
-// Destroy a song
 void destroySong(Song *song);
 
 #endif

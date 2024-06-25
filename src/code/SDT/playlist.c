@@ -1,6 +1,5 @@
 #include "../../header/SDT/Playlist/playlist.h"
 
-
 // this is playlists 
 void initializePlaylists(Playlists *playlists) {
     playlists->playlist = NULL;

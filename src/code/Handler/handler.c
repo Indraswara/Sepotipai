@@ -1,6 +1,4 @@
-
 #include "../../header/Handler/handler.h"
-
 
 void startup(){
     App app;
@@ -60,7 +58,7 @@ void menu(App* app){
 
 void playlist(const char *command, App *app){
     if(strcmp(command, "CREATE") == 0){
-        playlistCreate(app);    
+        playlistCreate(&app);    
     }
     else if(strcmp(command, "SHOW") == 0){
         listPlaylists(&(app->playlists));
@@ -80,4 +78,13 @@ void playlistCreate(App *app){
 }
 
 
+void playlistAdd(const char *command, App *app){
+    if(strcmp(command, "SONG") == 0){
+        
+    }
+    else if(strcmp(command, "ALBUM") == 0){
+
+    }
+
+}
 

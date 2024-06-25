@@ -1,5 +1,5 @@
 #include "../../header/SDT/Song/song.h"
-#include <string.h>  // For string manipulation functions
+#include <string.h>  
 
 Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID) {
     Song *song = (Song *)malloc(sizeof(Song));
@@ -39,6 +39,55 @@ Song *createSong(const char *songName, const char *artistName, const char *album
 
     return song;
 }
+
+void createEmptySong(Song *song) {
+    song = (Song *)malloc(sizeof(Song));
+    if (song == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    song->songName = NULL;
+    song->artistName = NULL;
+    song->albumName = NULL;
+    song->songID = 0;
+}
+
+void changeValue(Song *song, const char *defaultSongName, const char *defaultArtistName, const char *defaultAlbumName, int defaultSongID) {
+    if (song == NULL) {
+        fprintf(stderr, "Error: Song pointer is NULL.\n");
+        return;
+    }
+
+    if (song->songName == NULL) {
+        song->songName = strdup(defaultSongName);
+        if (song->songName == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (song->artistName == NULL) {
+        song->artistName = strdup(defaultArtistName);
+        if (song->artistName == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (song->albumName == NULL) {
+        song->albumName = strdup(defaultAlbumName);
+        if (song->albumName == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (song->songID == 0) {
+        song->songID = defaultSongID;
+    }
+}
+
 
 void destroySong(Song *song) {
     if (song != NULL) {

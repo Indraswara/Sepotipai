@@ -52,6 +52,11 @@ void removePlaylist(Playlists *playlists, const char *playlistName) {
 }
 
 void listPlaylists(Playlists *playlists) {
+    if(playlists->capacity == 0){
+        printf("KAMU TIDAK MEMILIKI PLAYLIST\n");
+        return;
+
+    }
     printf("List of Playlists:\n");
     for (int i = 0; i < playlists->numPlaylists; i++) {
         printf("    %d. %s\n", i + 1, playlists->playlists[i].playlistName);

@@ -2,7 +2,6 @@
 #include "../../header/Handler/handler.h"
 
 
-
 void startup(){
     App app;
     printf("Selamat datang di Sepotipai\n"); 
@@ -60,7 +59,24 @@ void menu(App* app){
 }
 
 void playlist(const char *command, App *app){
-    
+    if(strcmp(command, "CREATE") == 0){
+        playlistCreate(app);    
+    }
+    else if(strcmp(command, "SHOW") == 0){
+        listPlaylists(&(app->playlists));
+    }
+}
+
+void playlistCreate(App *app){
+    printf("Masukkan nama playlist yang ingin dibuat: "); 
+    char name[100]; 
+    scanf("%s", name); 
+    if(strlen(name) <= 3){
+        printf("nama yang dimasukkan kurang panjang\n"); 
+        return;
+    }
+    addPlaylist(&(app->playlists), name);
+    printf("Playlist %s berhasil dibuat silahkan menambahkan lagu kesayangan anda\n", name);
 }
 
 

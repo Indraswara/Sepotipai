@@ -26,6 +26,7 @@ void prepare(App *app) {
     initializePlaylists(&(app->playlists)); // Initialize playlists
 
     // Example: Adding singers dynamically
+    printf("SINGER, ALBUM, SONG\n");
     addSinger(&(app->singers), "Singer One", 10);  // Example capacity 10 for first singer
     addAlbum(&(app->singers.singers[0]), "First Album", 5);
     addSongToAlbum(&(app->singers.singers[0]), "First Album", "Song A");
@@ -37,10 +38,11 @@ void prepare(App *app) {
     addSongToAlbum(&(app->singers.singers[1]), "Second Album", "Song Y");
 
     // Example: Adding playlists dynamically
+
+    printf("PLAYLIST\n");
     addPlaylist(&(app->playlists), "Workout Playlist");
     addPlaylist(&(app->playlists), "Chill Playlist");
 }
-
 
 
 void menu(App* app){

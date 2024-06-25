@@ -25,7 +25,7 @@ void addPlaylist(Playlists *playlists, const char *playlistName) {
     }
     strcpy((char *)playlists->playlists[playlists->numPlaylists].playlistName, playlistName);
 
-    printf("Playlist successfully added\n");
+    printf("%s successfully added\n", playlistName);
     playlists->numPlaylists++;
 }
 

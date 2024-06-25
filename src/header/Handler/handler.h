@@ -12,6 +12,10 @@ void start();
 
 void list(const char* command, App *app); 
 
+void listDefault(App *app);
+
+void listPlaylistHandler(App *app);
+
 void play(); 
 
 void queue(); 

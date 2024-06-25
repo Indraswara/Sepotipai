@@ -1,5 +1,6 @@
 #include "../../header/Handler/handler.h"
 #include "../../shared/boolean.h"
+
 void startup(){
     App app;
     printf("Selamat datang di Sepotipai\n"); 
@@ -19,19 +20,25 @@ void startup(){
     }
 }
 
+//STILL HARDCODED
 void prepare(App *app) {
-    initializeSingers(&(app->singers));  // Initialize singers
+    initializeSingers(&(app->singers));   // Initialize singers
+    initializePlaylists(&(app->playlists)); // Initialize playlists
 
     // Example: Adding singers dynamically
     addSinger(&(app->singers), "Singer One", 10);  // Example capacity 10 for first singer
     addAlbum(&(app->singers.singers[0]), "First Album", 5);
     addSongToAlbum(&(app->singers.singers[0]), "First Album", "Song A");
     addSongToAlbum(&(app->singers.singers[0]), "First Album", "Song B");
-    
+
     addSinger(&(app->singers), "Singer Two", 3);  // Example capacity 3 for second singer
     addAlbum(&(app->singers.singers[1]), "Second Album", 3);
     addSongToAlbum(&(app->singers.singers[1]), "Second Album", "Song X");
     addSongToAlbum(&(app->singers.singers[1]), "Second Album", "Song Y");
+
+    // Example: Adding playlists dynamically
+    addPlaylist(&(app->playlists), "Workout Playlist");
+    addPlaylist(&(app->playlists), "Chill Playlist");
 }
 
 
@@ -62,7 +69,7 @@ void list(const char *command, App *app) {
     if (strcmp(command, "DEFAULT") == 0) {
         listDefault(app);
     } else if (strcmp(command, "PLAYLIST") == 0) {
-        listPlaylist(app);
+        listPlaylistHandler(app);
     } else if (strcmp(command, "REMOVE") == 0) {
         printf("Melakukan operasi REMOVE di list()\n");
         // Implement remove operation logic here
@@ -129,8 +136,6 @@ void listDefault(App *app) {
     }
 }
 
-void listPlaylist(App *app) {
-    // Implement logic for handling playlist listing
-    printf("List playlist:\n");
-    // Add your playlist listing logic here based on your application's requirements
+void listPlaylistHandler(App *app) {
+    listPlaylists(&(app->playlists));
 }

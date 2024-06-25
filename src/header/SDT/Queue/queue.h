@@ -27,6 +27,7 @@ void enqueueSong(Queue *queue, const char *songName, const char *artistName, con
 void enqueuePlaylist(Queue *queue, Playlist *playlist);
 void dequeue(Queue *queue);
 void printQueue(Queue *queue);
+void queueSwap(Queue *queue, int x, int y);
 void deallocateQueue(Queue *queue);
 
 #endif // QUEUE_H

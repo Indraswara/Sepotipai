@@ -60,7 +60,12 @@ void queue(const char* command, App *app) {
         queueSong(app);
     } else if (strcmp(command, "PLAYLIST") == 0) {
         queuePlaylist(app);
-    } else if(strcmp(command, "SHOW") == 0){
+    } else if(strcmp(command, "SWAP") == 0){
+        int x, y;
+        scanf("%d %d", &x, &y); 
+        queueSwap(&(app->queue), x, y);
+    }
+    else if(strcmp(command, "SHOW") == 0){
         printQueue(&(app->queue));
     }
     else {

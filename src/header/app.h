@@ -1,12 +1,10 @@
 #ifndef APP_H 
 #define APP_H 
 
-#include "./SDT/Song/song.h"
-#include "./SDT/Album/Album.h"
+#include "./SDT/Singer/singer.h"
 
 typedef struct app{
-    ListDin song;  
-    ListDin album;
+    Singers singers;  
 } App; 
 
 #endif

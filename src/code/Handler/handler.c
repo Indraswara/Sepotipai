@@ -19,9 +19,21 @@ void startup(){
     }
 }
 
-void prepare(App* app){
-    CreateListDin(&(app->album), 100);
+void prepare(App *app) {
+    initializeSingers(&(app->singers));  // Initialize singers (formerly singerManager)
+
+    // Example: Adding singers dynamically
+    addSinger(&(app->singers), 10);  // Example capacity 10 for first singer
+    addAlbum(&(app->singers.singers[0]), "First Album", 5);
+    addSongToAlbum(&(app->singers.singers[0]), "First Album", "Song A");
+    addSongToAlbum(&(app->singers.singers[0]), "First Album", "Song B");
+    
+    addSinger(&(app->singers), 3);  // Example capacity 3 for second singer
+    addAlbum(&(app->singers.singers[1]), "Second Album", 3);
+    addSongToAlbum(&(app->singers.singers[1]), "Second Album", "Song X");
+    addSongToAlbum(&(app->singers.singers[1]), "Second Album", "Song Y");
 }
+
 
 void menu(App* app){
     while(true){
@@ -49,12 +61,10 @@ void list(const char *command, App *app) {
     if (strcmp(command, "ADD") == 0) {
         printf("Melakukan operasi ADD di list()\n");
         
-        insertLast(&app->album, "empat");
-        insertLast(&app->album, "tiga");
-        insertLast(&app->album, "dua");
-        insertLast(&app->album, "satu");
-
-        printList(app->album);
+        for(int i = 0; i < app->singers.numSingers; i++){
+            printf("singer %d:\n", i+1); 
+            printSingerDiscography(&(app->singers.singers[i]));
+        }
 
     } else if (strcmp(command, "REMOVE") == 0) {
         printf("Melakukan operasi REMOVE di list()\n");

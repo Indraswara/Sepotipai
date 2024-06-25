@@ -208,9 +208,30 @@ void queueRemove(Queue *queue, int id) {
     }
 }
 
+void queueClear(Queue *queue) {
+    QueueNode *current = queue->head;
+    QueueNode *next;
 
+    while (current != NULL) {
+        next = current->next;
+        if (current->song != NULL) {
+            free((char *)current->song->songName); 
+            free((char *)current->song->artistName); 
+            free((char *)current->song->albumName); 
+            free(current->song); 
+        } 
+        free(current);
 
-// Function to deallocate Queue
+        current = next;
+    }
+
+    queue->head = NULL;
+    queue->tail = NULL;
+    queue->size = 0;
+
+    printf("Queue berhasil dikosongkan.\n");
+}
+
 void deallocateQueue(Queue *queue) {
     while (queue->size > 0) {
         dequeue(queue);

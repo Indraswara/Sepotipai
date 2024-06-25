@@ -68,10 +68,12 @@ void queue(const char* command, App *app) {
         int id; 
         scanf("%d", &id); 
         queueRemove(&(app->queue), id); 
+    } else if(strcmp(command, "CLEAR") == 0){
+        queueClear(&(app->queue));
     }
     else if(strcmp(command, "SHOW") == 0){
         printQueue(&(app->queue));
-    }
+    } 
     else {
         printf("Subcommand QUEUE tidak dikenali\n");
     }

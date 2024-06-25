@@ -29,6 +29,7 @@ void dequeue(Queue *queue);
 void printQueue(Queue *queue);
 void queueSwap(Queue *queue, int x, int y);
 void queueRemove(Queue *queue, int id);
+void queueClear(Queue *queue);
 void deallocateQueue(Queue *queue);
 
 #endif // QUEUE_H

@@ -69,7 +69,7 @@ void queueSong(App *app) {
     }
     printf("\nSongs in Album %s by %s:\n", albumName, singerName);
     for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
-        printf("%d. %s\n", i + 1, &app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName);
+        printf("%d. %s\n", i + 1, app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName);
     }
 
     int songID;
@@ -81,7 +81,7 @@ void queueSong(App *app) {
         return;
     }
 
-    const char *songName = &app->singers.singers[singerIndex].albums[albumIndex].songs[songID - 1]->songName;
+    const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songID - 1]->songName;
     enqueueSong(&app->queue, songName, singerName, albumName, songID);
     printf("Successfully added song \"%s\" by \"%s\" to queue.\n", songName, singerName);
 }

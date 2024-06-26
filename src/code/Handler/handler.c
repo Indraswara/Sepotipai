@@ -56,19 +56,7 @@ void menu(App* app){
     }
 }
 
-void playlist(const char *command, App *app){
-    if(strcmp(command, "CREATE") == 0){
-        playlistCreate(app);    
-    }
-    else if(strcmp(command, "ADD") == 0){
-        char subcommand[100]; 
-        scanf("%s", subcommand);
-        playlistAdd(subcommand, app);
-    }
-    else if(strcmp(command, "SHOW") == 0){
-        listPlaylists(&(app->playlists));
-    }
-}
+
 
 void playlistCreate(App *app){
     printf("Masukkan nama playlist yang ingin dibuat: "); 
@@ -131,7 +119,7 @@ void playlistAdd(const char *command, App *app){
 
         printf("\nDaftar Lagu Album %s oleh %s:\n", albumName, singerName);
         for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
-            printf("%d. %s\n", i + 1, app->singers.singers[singerIndex].albums[albumIndex].songs[i]);
+            printf("%d. %s\n", i + 1, app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName);
         }
 
         int songID;
@@ -143,7 +131,7 @@ void playlistAdd(const char *command, App *app){
             return;
         }
 
-        const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songID - 1];
+        const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songID - 1]->songName;
 
         // Ask for playlist name to add the song
         printf("Daftar Playlist:\n");
@@ -242,7 +230,7 @@ void playlistAdd(const char *command, App *app){
 
         // Add entire album to the found playlist
         for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
-            const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[i];
+            const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName;
             addSongToPlaylist(&(app->playlists.playlist[playlistIndex]), songName, singerName, albumName, i + 1);
         }
         printf("Berhasil menambahkan semua lagu dari album \"%s\" ke playlist \"%s\".\n", albumName, playlistName);
@@ -252,4 +240,16 @@ void playlistAdd(const char *command, App *app){
     }
 }
 
-
+void playlist(const char *command, App *app){
+    if(strcmp(command, "CREATE") == 0){
+        playlistCreate(app);    
+    }
+    else if(strcmp(command, "ADD") == 0){
+        char subcommand[100]; 
+        scanf("%s", subcommand);
+        playlistAdd(subcommand, app);
+    }
+    else if(strcmp(command, "SHOW") == 0){
+        listPlaylists(&(app->playlists));
+    }
+}

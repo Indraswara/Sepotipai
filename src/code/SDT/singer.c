@@ -7,7 +7,7 @@ void createSinger(Singer *singer, const char *name, int capacity) {
         exit(EXIT_FAILURE);
     }
 
-    strcpy(singer->singerName, name);
+    memcpy((void *)singer->singerName, name, strlen(name));
 
     singer->albums = malloc(capacity * sizeof(Album));
     if (singer->albums == NULL) {
@@ -29,7 +29,7 @@ void deallocateSinger(Singer *singer) {
         singer->capacity = 0;
     }
     if (singer->singerName != NULL) {
-        free(singer->singerName);
+        free(&singer->singerName);
         singer->singerName = NULL;
     }
 }

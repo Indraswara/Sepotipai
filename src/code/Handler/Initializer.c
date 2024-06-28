@@ -1,39 +1,39 @@
 #include "../../header/Handler/initializer.h"
+#include <ctype.h>
+
+#define MAX_LINE_LENGTH 100
+
+void trim(char *str) {
+    int len = strlen(str);
+    while (len > 0 && (str[len - 1] == '\n' || str[len - 1] == '\r')) {
+        str[len - 1] = '\0';
+        len--;
+    }
+}
 
 
-void initializer(App* app) {
-    // Initialize Singers and Playlists
+void initializer(App *app) {
+    FILE *file = fopen("default.txt", "r");
+    if (file == NULL) {
+        fprintf(stderr, "Error opening file default.txt.\n");
+        exit(EXIT_FAILURE);
+    }
+
     initializeSingers(&(app->singers));
     initializePlaylists(&(app->playlists));
-
-    // Create an empty current song
-    createEmptySong(&(app->currSong));
-    //create empty Queue
     initializeQueue(&(app->queue));
     initializeQueue(&(app->history));
+    createEmptySong(&(app->currSong));
 
-    // Add Singer One
-    addSinger(&(app->singers), "Singer One", 10);
-    addAlbum(&(app->singers.singers[0]), "First Album", 5);
-    Song* songA = createSong("Song A", "Singer One", "First Album", 1);
-    Song* songB = createSong("Song B", "Singer One", "First Album", 2);
-    addSongToAlbum(&(app->singers.singers[0]), "First Album", songA);
-    addSongToAlbum(&(app->singers.singers[0]), "First Album", songB);
+    char line[MAX_LINE_LENGTH];
+    char *token;
 
-    // Add Singer Two
-    addSinger(&(app->singers), "Singer Two", 3);
-    addAlbum(&(app->singers.singers[1]), "Second Album", 3);
-    Song* songX = createSong("Song X", "Singer Two", "Second Album", 3);
-    Song* songY = createSong("Song Y", "Singer Two", "Second Album", 4);
-    addSongToAlbum(&(app->singers.singers[1]), "Second Album", songX);
-    addSongToAlbum(&(app->singers.singers[1]), "Second Album", songY);
+    int numSingers;
+    fscanf(file, "%d", &numSingers);
+    fgets(line, MAX_LINE_LENGTH, file); // read the rest of the line
 
-    // Add Playlists
-    addPlaylist(&(app->playlists), "Workout Playlist");
-    addPlaylist(&(app->playlists), "Chill Playlist");
 
-    // Add songs to playlists
-    addSongToPlaylist(&(app->playlists.playlist[0]), "Song A", "Singer One", "First Album", 1);
-    addSongToPlaylist(&(app->playlists.playlist[0]), "Song X", "Singer Two", "Second Album", 3);
+
+    fclose(file);
 }
 

@@ -7,6 +7,7 @@
 #include "../../header/Handler/handlerList.h"
 #include "../../header/Handler/handlerPlay.h"
 #include "../../header/Handler/initializer.h"
+#include "../../header/Handler/handlerPlaylist.h"
 #include "../../shared/boolean.h"
 
 void startup();

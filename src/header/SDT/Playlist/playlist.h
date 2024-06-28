@@ -27,6 +27,7 @@ void addPlaylist(Playlists *playlists, const char *playlistName);
 void removePlaylist(Playlists *playlists, const char *playlistName);
 void listPlaylists(Playlists *playlists);
 void deallocatePlaylists(Playlists *playlists);
+void playlistSwap(Playlists *playlists, int playlistID, int x, int y);
 
 //this each playlist
 Playlist *createPlaylist(const char *playlistName);
@@ -35,6 +36,7 @@ void removeSongFromPlaylist(Playlist *playlist, int songIndex);
 void swapSongsInPlaylist(Playlist *playlist, int x, int y);
 void deleteAllSongsFromPlaylist(Playlist *playlist);
 void deletePlaylist(Playlist *playlist);
+
 
 
 #endif 

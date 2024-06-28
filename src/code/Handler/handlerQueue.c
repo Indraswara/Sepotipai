@@ -103,7 +103,11 @@ void queuePlaylist(App *app) {
 
     if (playlistID > 0 && playlistID <= app->playlists.numPlaylists) {
         Playlist *playlist = &app->playlists.playlist[playlistID - 1];
-        enqueuePlaylist(&app->queue, playlist);
+        // enqueuePlaylist(&app->queue, playlist);
+        for (int i = 0; i < playlist->numSongs; i++) {
+            Song *song = &playlist->songs[i];
+            enqueueSong(&app->queue, song->songName, song->artistName, song->albumName, song->songID);
+        }
         printf("Successfully added playlist \"%s\" to queue.\n", playlist->playlistName);
     } else {
         printf("Invalid Playlist ID.\n");

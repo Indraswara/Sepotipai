@@ -10,6 +10,7 @@ typedef struct app{
     Singers singers; 
     Playlists playlists; 
     Queue queue;
+    Queue history;
     Song currSong;
 } App; 
 

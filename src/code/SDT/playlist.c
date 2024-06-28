@@ -181,3 +181,24 @@ void deletePlaylist(Playlist *playlist) {
     free(playlist->songs);
     free(playlist);
 }
+
+void playlistSwap(Playlists *playlists, int playlistID, int x, int y) {
+    if (playlistID < 1 || playlistID > playlists->numPlaylists) {
+        printf("Tidak ada playlist dengan playlist ID %d\n", playlistID);
+        return;
+    }
+
+    Playlist *playlist = &playlists->playlist[playlistID - 1];
+
+    if (x < 1 || x > playlist->numSongs || y < 1 || y > playlist->numSongs) {
+        printf("Tidak ada lagu dengan urutan %d di playlist \"%s\"\n", (x < 1 || x > playlist->numSongs) ? x : y, playlist->playlistName);
+        return;
+    }
+
+    swapSongsInPlaylist(playlist, x - 1, y - 1);
+    printf("Berhasil menukar lagu \"%s\" dengan \"%s\" di playlist \"%s\"\n",
+           playlist->songs[x - 1].songName,
+           playlist->songs[y - 1].songName,
+           playlist->playlistName);
+}
+

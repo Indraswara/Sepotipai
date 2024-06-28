@@ -20,6 +20,7 @@ void startup(){
 }
 
 
+
 void menu(App* app){
     while(true){
         char input[100]; 
@@ -45,6 +46,13 @@ void menu(App* app){
             char subcommand[100]; 
             scanf("%s", subcommand); 
             playlist(subcommand, app);
+        }else if(strcmp(input, "SONG") == 0){
+            char subcommand[100]; 
+            scanf("%s", subcommand); 
+            songHandler(subcommand, app);
+
+        }else if(strcmp(input, "STATUS") == 0){
+            statusHandler(app);
         }
         else if(memcmp(input, "EXIT", strlen("EXIT")) == 0){
             printf("KELUAR DARI PROGRAM\n");
@@ -57,199 +65,84 @@ void menu(App* app){
 }
 
 
-
-void playlistCreate(App *app){
-    printf("Masukkan nama playlist yang ingin dibuat: "); 
-    char name[100]; 
-    scanf("%s", name); 
-    if(strlen(name) <= 3){
-        printf("nama yang dimasukkan kurang panjang\n"); 
-        return;
-    }
-    addPlaylist(&(app->playlists), name);
-    printf("Playlist %s berhasil dibuat silahkan menambahkan lagu kesayangan anda\n", name);
-}
-
-
-void playlistAdd(const char *command, App *app){
-    if(strcmp(command, "SONG") == 0){
-        printf("Daftar Penyanyi:\n");
-        for (int i = 0; i < app->singers.numSingers; i++) {
-            printf("%d. %s\n", i + 1, app->singers.singers[i].singerName);
+void playNextSong(App *app) {
+    if (app->queue.size > 0 || app->currSong.songName != NULL) {
+        if (app->currSong.songName != NULL) {
+            enqueueSong(&app->history, app->currSong.songName, app->currSong.artistName, app->currSong.albumName, app->currSong.songID);
         }
 
-        char singerName[100];
-        printf("Masukkan Nama Penyanyi: ");
-        scanf(" %[^\n]", singerName);
-
-        int singerIndex = -1;
-        for (int i = 0; i < app->singers.numSingers; i++) {
-            if (strcmp(app->singers.singers[i].singerName, singerName) == 0) {
-                singerIndex = i;
-                break;
-            }
+        if (app->queue.size > 0) {
+            changeValue(&app->currSong, app->queue.head->song->songName, app->queue.head->song->artistName, app->queue.head->song->albumName, app->queue.head->song->songID);
+            dequeue(&app->queue);
+            printf("Memutar lagu \"%s\" oleh \"%s\"\n", app->currSong.songName, app->currSong.artistName);
+        } else {
+            printf("Queue kosong, memutar kembali lagu \"%s\" oleh \"%s\"\n", app->currSong.songName, app->currSong.artistName);
         }
-
-        if (singerIndex == -1) {
-            printf("Penyanyi dengan nama '%s' tidak ditemukan.\n", singerName);
-            return;
-        }
-
-        printf("\nDaftar Album oleh %s:\n", singerName);
-        for (int i = 0; i < app->singers.singers[singerIndex].numAlbums; i++) {
-            printf("%d. %s\n", i + 1, app->singers.singers[singerIndex].albums[i].name);
-        }
-
-        char albumName[100];
-        printf("Masukkan Nama Album yang dipilih: ");
-        scanf(" %[^\n]", albumName);
-
-        int albumIndex = -1;
-        for (int i = 0; i < app->singers.singers[singerIndex].numAlbums; i++) {
-            if (strcmp(app->singers.singers[singerIndex].albums[i].name, albumName) == 0) {
-                albumIndex = i;
-                break;
-            }
-        }
-
-        if (albumIndex == -1) {
-            printf("Album '%s' tidak ditemukan untuk penyanyi '%s'.\n", albumName, singerName);
-            return;
-        }
-
-        printf("\nDaftar Lagu Album %s oleh %s:\n", albumName, singerName);
-        for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
-            printf("%d. %s\n", i + 1, app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName);
-        }
-
-        int songID;
-        printf("Masukkan ID Lagu yang dipilih: ");
-        scanf("%d", &songID);
-
-        if (songID < 1 || songID > app->singers.singers[singerIndex].albums[albumIndex].size) {
-            printf("ID Lagu tidak valid.\n");
-            return;
-        }
-
-        const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songID - 1]->songName;
-
-        // Ask for playlist name to add the song
-        printf("Daftar Playlist:\n");
-        for (int i = 0; i < app->playlists.numPlaylists; i++) {
-            printf("%d. %s\n", i + 1, app->playlists.playlist[i].playlistName);
-        }
-
-        char playlistName[100];
-        printf("Masukkan Nama Playlist: ");
-        scanf(" %[^\n]", playlistName);
-
-        int playlistIndex = -1;
-        for (int i = 0; i < app->playlists.numPlaylists; i++) {
-            if (strcmp(app->playlists.playlist[i].playlistName, playlistName) == 0) {
-                playlistIndex = i;
-                break;
-            }
-        }
-
-        if (playlistIndex == -1) {
-            printf("Playlist dengan nama '%s' tidak ditemukan.\n", playlistName);
-            return;
-        }
-
-        // Add song to the found playlist
-        addSongToPlaylist(&(app->playlists.playlist[playlistIndex]), songName, singerName, albumName, songID);
-        printf("Berhasil menambahkan lagu \"%s\" ke playlist \"%s\".\n", songName, playlistName);
-    }
-    else if(strcmp(command, "ALBUM") == 0){
-        printf("Daftar Penyanyi:\n");
-        for (int i = 0; i < app->singers.numSingers; i++) {
-            printf("%d. %s\n", i + 1, app->singers.singers[i].singerName);
-        }
-
-        char singerName[100];
-        printf("Masukkan Nama Penyanyi: ");
-        scanf(" %[^\n]", singerName);
-
-        int singerIndex = -1;
-        for (int i = 0; i < app->singers.numSingers; i++) {
-            if (strcmp(app->singers.singers[i].singerName, singerName) == 0) {
-                singerIndex = i;
-                break;
-            }
-        }
-
-        if (singerIndex == -1) {
-            printf("Penyanyi dengan nama '%s' tidak ditemukan.\n", singerName);
-            return;
-        }
-
-        printf("\nDaftar Album oleh %s:\n", singerName);
-        for (int i = 0; i < app->singers.singers[singerIndex].numAlbums; i++) {
-            printf("%d. %s\n", i + 1, app->singers.singers[singerIndex].albums[i].name);
-        }
-
-        char albumName[100];
-        printf("Masukkan Nama Album yang dipilih: ");
-        scanf(" %[^\n]", albumName);
-
-        int albumIndex = -1;
-        for (int i = 0; i < app->singers.singers[singerIndex].numAlbums; i++) {
-            if (strcmp(app->singers.singers[singerIndex].albums[i].name, albumName) == 0) {
-                albumIndex = i;
-                break;
-            }
-        }
-
-        if (albumIndex == -1) {
-            printf("Album '%s' tidak ditemukan untuk penyanyi '%s'.\n", albumName, singerName);
-            return;
-        }
-
-        // Ask for playlist name to add the entire album
-        printf("Daftar Playlist:\n");
-        for (int i = 0; i < app->playlists.numPlaylists; i++) {
-            printf("%d. %s\n", i + 1, app->playlists.playlist[i].playlistName);
-        }
-
-        char playlistName[100];
-        printf("Masukkan Nama Playlist: ");
-        scanf(" %[^\n]", playlistName);
-
-        int playlistIndex = -1;
-        for (int i = 0; i < app->playlists.numPlaylists; i++) {
-            if (strcmp(app->playlists.playlist[i].playlistName, playlistName) == 0) {
-                playlistIndex = i;
-                break;
-            }
-        }
-
-        if (playlistIndex == -1) {
-            printf("Playlist dengan nama '%s' tidak ditemukan.\n", playlistName);
-            return;
-        }
-
-        // Add entire album to the found playlist
-        for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
-            const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName;
-            addSongToPlaylist(&(app->playlists.playlist[playlistIndex]), songName, singerName, albumName, i + 1);
-        }
-        printf("Berhasil menambahkan semua lagu dari album \"%s\" ke playlist \"%s\".\n", albumName, playlistName);
-    }
-    else {
-        printf("Subcommand '%s' untuk menambahkan ke playlist tidak dikenali.\n", command);
+    } else {
+        printf("Tidak ada lagu yang diputar\n");
     }
 }
 
-void playlist(const char *command, App *app){
-    if(strcmp(command, "CREATE") == 0){
-        playlistCreate(app);    
+
+void playPreviousSong(App *app) {
+    if (app->history.size > 0) {
+        if (app->currSong.songName != NULL) {
+            enqueueSong(&app->queue, app->currSong.songName, app->currSong.artistName, app->currSong.albumName, app->currSong.songID);
+        }
+
+        if (app->history.head != NULL) {
+            changeValue(&app->currSong, app->history.head->song->songName, app->history.head->song->artistName, app->history.head->song->albumName, app->history.head->song->songID);
+            dequeue(&app->history);
+            printf("Memutar lagu sebelumnya \"%s\" oleh \"%s\"\n", app->currSong.songName, app->currSong.artistName);
+        } else {
+            if (app->currSong.songName != NULL) {
+                printf("Riwayat lagu kosong, memutar kembali lagu \"%s\" oleh \"%s\"\n", app->currSong.songName, app->currSong.artistName);
+            } else {
+                printf("Riwayat lagu kosong, tidak ada lagu yang diputar\n");
+            }
+        }
+    } else {
+        if (app->currSong.songName != NULL) {
+            printf("Riwayat lagu kosong, memutar kembali lagu \"%s\" oleh \"%s\"\n", app->currSong.songName, app->currSong.artistName);
+        } else {
+            printf("Riwayat lagu kosong, tidak ada lagu yang diputar\n");
+        }
     }
-    else if(strcmp(command, "ADD") == 0){
-        char subcommand[100]; 
-        scanf("%s", subcommand);
-        playlistAdd(subcommand, app);
+}
+
+
+
+void songHandler(const char* command, App* app){
+    if(strcmp(command, "NEXT") == 0){
+        playNextSong(app);
+    }else if(strcmp(command, "PREV") == 0){
+        playPreviousSong(app);
     }
-    else if(strcmp(command, "SHOW") == 0){
-        listPlaylists(&(app->playlists));
+    else{
+        printf("Perintah '%s' tidak dikenali dalam song.\n", command);
     }
+}
+
+void statusHandler(App* app) {
+    if (app->currSong.songName == NULL) {
+        printf("Now Playing:\nNo songs have been played yet. Please search for a song to begin playback.\n");
+    } else {
+        printf("Now Playing:\n%s - %s - %s\n", app->currSong.artistName, app->currSong.songName, app->currSong.albumName);
+    }
+
+    if (app->queue.size == 0) {
+        printf("Queue:\nYour queue is empty.\n");
+    } else {
+        printf("Queue:\n");
+        QueueNode *current = app->queue.head;
+        int pos = 1;
+        while (current) {
+            if (current->song) {
+                printf("%d. %s - %s - %s\n", pos, current->song->artistName, current->song->songName, current->song->albumName);
+            }
+            current = current->next;
+            pos++;
+        }
+    }
+
 }

@@ -21,6 +21,13 @@ void queue(const char* command, App *app) {
         printQueue(&(app->queue));
     } else {
         printf("Subcommand QUEUE not recognized.\n");
+        printf("Cara menggunakan: \n"); 
+        printf("QUEUE SONG\n");
+        printf("QUEUE PLAYLIST\n");
+        printf("QUEUE SWAP x y\nx: id lagu pertama\ny: id lagu kedua\n");
+        printf("QUEUE REMOVE\nx: id lagu yang ingin dihapus\n");
+        printf("QUEUE CLEAR\n");
+        printf("QUEUE SHOW\n");
     }
 }
 

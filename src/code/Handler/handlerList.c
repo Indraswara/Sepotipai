@@ -7,9 +7,11 @@ void list(const char *command, App *app) {
         listPlaylistHandler(app);
     } else if (strcmp(command, "REMOVE") == 0) {
         printf("Melakukan operasi REMOVE di list()\n");
-        // Implement remove operation logic here
     } else {
         printf("Perintah '%s' tidak dikenali dalam list.\n", command);
+        printf("Cara menggunakan: \n");
+        printf("LIST DEFAULT\n");
+        printf("LIST PLAYLIST\n");
     }
 }
 
@@ -19,17 +21,15 @@ void listDefault(App *app) {
         printf("    %d. %s\n", i + 1, app->singers.singers[i].singerName);
     }
 
-    // Prompt user for album view
     char choice;
     printf("Ingin melihat album yang ada? (Y/N): ");
-    scanf(" %c", &choice);  // Read user choice
+    scanf(" %c", &choice);  
 
     if (choice == 'Y' || choice == 'y') {
-        char singerName[100];  // Assuming maximum singer name length of 100 characters
+        char singerName[100];  
         printf("Masukkan nama penyanyi untuk melihat album mereka: ");
-        scanf(" %[^\n]", singerName);  // Read singer name including spaces
+        scanf(" %[^\n]", singerName);  
 
-        // Find the singer by name
         int found = 0;
         for (int i = 0; i < app->singers.numSingers; i++) {
             if (strcmp(app->singers.singers[i].singerName, singerName) == 0) {

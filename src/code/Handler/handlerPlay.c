@@ -7,6 +7,9 @@ void play(const char* command, App *app) {
         playPlaylist(app);
     } else {
         printf("Perintah '%s' tidak dikenali dalam play.\n", command);
+        printf("Cara menggunakan: \n");
+        printf("PLAY SONG\n");
+        printf("PLAY PLAYLIST\n");
     }
 }
 

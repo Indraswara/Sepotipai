@@ -271,7 +271,13 @@ void playlist(const char *command, App *app){
         printf("    - CREATE\n");
         printf("    - ADD\n");
         printf("    - SHOW\n");
-        printf("    - REMOVE\n");
+        printf("    - SWAP z x y"); 
+        printf("      z: id playlist");
+        printf("      x: id lagu pertama");
+        printf("      y: id lagu kedua");
+        printf("    - REMOVE x y\n");
+        printf("      x: id playlist");
+        printf("      y: id lagu yang ingin dihapus");
         printf("    - DELETE\n");
         printf("    - DATA\n");
     }

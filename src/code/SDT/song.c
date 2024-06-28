@@ -59,7 +59,7 @@ void changeValue(Song *song, const char *defaultSongName, const char *defaultArt
         return;
     }
 
-    if (song->songName == NULL || strlen(song->songName) >= 0) {
+    if (song->songName == NULL || strlen(song->songName) > 0) {
         song->songName = strdup(defaultSongName);
         if (song->songName == NULL) {
             fprintf(stderr, "Memory allocation failed.\n");
@@ -67,7 +67,7 @@ void changeValue(Song *song, const char *defaultSongName, const char *defaultArt
         }
     }
 
-    if (song->artistName == NULL || strlen(song->artistName) >= 0){
+    if (song->artistName == NULL || strlen(song->artistName) > 0){
         song->artistName = strdup(defaultArtistName);
         if (song->artistName == NULL) {
             fprintf(stderr, "Memory allocation failed.\n");
@@ -75,7 +75,7 @@ void changeValue(Song *song, const char *defaultSongName, const char *defaultArt
         }
     }
 
-    if (song->albumName == NULL || strlen(song->albumName) >= 0) {
+    if (song->albumName == NULL || strlen(song->albumName) > 0) {
         song->albumName = strdup(defaultAlbumName);
         if (song->albumName == NULL) {
             fprintf(stderr, "Memory allocation failed.\n");

@@ -143,6 +143,17 @@ void statusHandler(App* app) {
             current = current->next;
             pos++;
         }
+
+        printf("History Queue: \n"); 
+        QueueNode *currentHistory = app->history.head;
+        int posHistory = 1;
+        while (currentHistory) {
+            if (currentHistory->song) {
+                printf("%d. %s - %s - %s\n", posHistory, currentHistory->song->artistName, currentHistory->song->songName, currentHistory->song->albumName);
+            }
+            currentHistory = currentHistory->next;
+            posHistory++;
+        }
     }
 
 }

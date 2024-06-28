@@ -8,6 +8,9 @@ void initializer(App* app) {
 
     // Create an empty current song
     createEmptySong(&(app->currSong));
+    //create empty Queue
+    initializeQueue(&(app->queue));
+    initializeQueue(&(app->history));
 
     // Add Singer One
     addSinger(&(app->singers), "Singer One", 10);

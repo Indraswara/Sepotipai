@@ -13,27 +13,55 @@ void trim(char *str) {
 
 
 void initializer(App *app) {
-    FILE *file = fopen("default.txt", "r");
+    FILE *file;
+    char line[100]; // Buffer to hold lines from the file
+    int totalSinger;
+    int totalAlbum;
+    char bandName[50]; // Adjust size as needed
+
+    // Open the file in read mode
+    file = fopen("data/default.txt", "r");
     if (file == NULL) {
-        fprintf(stderr, "Error opening file default.txt.\n");
-        exit(EXIT_FAILURE);
+        printf("Error opening file.\n");
+        return 1;
     }
 
-    initializeSingers(&(app->singers));
-    initializePlaylists(&(app->playlists));
-    initializeQueue(&(app->queue));
-    initializeQueue(&(app->history));
-    createEmptySong(&(app->currSong));
+    // Read the first line to get totalSinger
+    if (fgets(line, sizeof(line), file) != NULL) {
+        // Parse the totalSinger value
+        if (sscanf(line, "%d", &totalSinger) != 1) {
+            printf("Error parsing totalSinger.\n");
+            fclose(file);
+            return 1;
+        }
+    } else {
+        printf("Error reading from file.\n");
+        fclose(file);
+        return 1;
+    }
 
-    char line[MAX_LINE_LENGTH];
-    char *token;
-
-    int numSingers;
-    fscanf(file, "%d", &numSingers);
-    fgets(line, MAX_LINE_LENGTH, file); // read the rest of the line
-
+    // Read the second line to get totalAlbum and bandName
+    printf("Total Singers: %d\n", totalSinger);
+    while(totalSinger--){
+        if (fgets(line, sizeof(line), file) != NULL) {
+            // Parse the totalAlbum and bandName values
+            if (sscanf(line, "%d %49s", &totalAlbum, bandName) != 2) {
+                printf("Error parsing totalAlbum and bandName.\n");
+                fclose(file);
+                return 1;
+            }
+        } else {
+            printf("Error reading from file.\n");
+            fclose(file);
+            return 1;
+        }
+        // Print the results
+        printf("Total Albums: %d\n", totalAlbum);
+        printf("Band Name: %s\n", bandName);
+    }
 
 
     fclose(file);
+    return 0;
 }
 

@@ -1,28 +1,99 @@
 #include "../../header/SDT/Song/song.h"
-#include <string.h>  // For string manipulation functions
+#include <string.h>  // s
 
-void addSong(ListDin *songList, const char *songName) {
-    // Insert the new song into the songList
-    insertLast(songList, songName);
+Song *createSong(const char *songName, const char *artistName, const char *albumName, int songID) {
+    Song *song = (Song *)malloc(sizeof(Song));
+    if (song == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    song->songName = (const char *)malloc(strlen(songName) + 1);
+    if (song->songName == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        free(song);
+        exit(EXIT_FAILURE);
+    }
+    strcpy((char *)song->songName, songName);
+
+    song->artistName = (const char *)malloc(strlen(artistName) + 1);
+    if (song->artistName == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        free((char *)song->songName);
+        free(song);
+        exit(EXIT_FAILURE);
+    }
+    strcpy((char *)song->artistName, artistName);
+
+    song->albumName = (const char *)malloc(strlen(albumName) + 1);
+    if (song->albumName == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        free((char *)song->artistName);
+        free((char *)song->songName);
+        free(song);
+        exit(EXIT_FAILURE);
+    }
+    strcpy((char *)song->albumName, albumName);
+
+    song->songID = songID;
+
+    return song;
 }
 
-void deleteSong(ListDin *songList, const char *songName) {
-    IdxType idx;
-    boolean found = false;
+void createEmptySong(Song *song) {
+    song = (Song *)malloc(sizeof(Song));
+    if (song == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
 
-    // Search for the songName in the songList
-    for (idx = 0; idx < listLength(*songList); idx++) {
-        if (strcmp(ELMT(*songList, idx), songName) == 0) {
-            // Song found, delete it
-            deleteLast(songList, &ELMT(*songList, idx));
-            found = true;
-            break;
+    song->songName = NULL;
+    song->artistName = NULL;
+    song->albumName = NULL;
+    song->songID = 0;
+}
+
+void changeValue(Song *song, const char *defaultSongName, const char *defaultArtistName, const char *defaultAlbumName, int defaultSongID) {
+    if (song == NULL) {
+        fprintf(stderr, "Error: Song pointer is NULL.\n");
+        return;
+    }
+
+    if (song->songName == NULL || strlen(song->songName) > 0) {
+        song->songName = strdup(defaultSongName);
+        if (song->songName == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
         }
     }
 
-    if (!found) {
-        printf("Song '%s' not found.\n", songName);
+    if (song->artistName == NULL || strlen(song->artistName) > 0){
+        song->artistName = strdup(defaultArtistName);
+        if (song->artistName == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (song->albumName == NULL || strlen(song->albumName) > 0) {
+        song->albumName = strdup(defaultAlbumName);
+        if (song->albumName == NULL) {
+            fprintf(stderr, "Memory allocation failed.\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (song->songID == 0) {
+        song->songID = defaultSongID;
     }
 }
 
-// You can add more functions related to songs here if needed
+
+void destroySong(Song *song) {
+    if (song != NULL) {
+        free((char *)song->songName);
+        free((char *)song->artistName);
+        free((char *)song->albumName);
+        free(song);
+    }
+}

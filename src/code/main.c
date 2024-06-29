@@ -2,7 +2,6 @@
 #include "../header/Handler/handler.h"
 
 int main(){
-    menu();
-
+    startup();
     return 0;
 }

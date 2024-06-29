@@ -16,8 +16,8 @@ void playlistCreate(App *app){
 }
 
 
-void playlistAdd(const char *command, App *app){
-    if(strcmp(command, "SONG") == 0){
+void playlistAdd(const char *command, App *app) {
+    if (strcmp(command, "SONG") == 0) {
         printf("Daftar Penyanyi:\n");
         for (int i = 0; i < app->singers.numSingers; i++) {
             printf("%d. %s\n", i + 1, app->singers.singers[i].singerName);
@@ -78,34 +78,26 @@ void playlistAdd(const char *command, App *app){
 
         const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[songID - 1]->songName;
 
-        // Ask for playlist name to add the song
+        // Ask for playlist ID to add the song
         printf("Daftar Playlist:\n");
         for (int i = 0; i < app->playlists.numPlaylists; i++) {
             printf("%d. %s\n", i + 1, app->playlists.playlist[i].playlistName);
         }
 
-        char playlistName[100];
-        printf("Masukkan Nama Playlist: ");
-        scanf(" %[^\n]", playlistName);
+        int playlistID;
+        printf("Masukkan ID Playlist: ");
+        scanf("%d", &playlistID);
 
-        int playlistIndex = -1;
-        for (int i = 0; i < app->playlists.numPlaylists; i++) {
-            if (strcmp(app->playlists.playlist[i].playlistName, playlistName) == 0) {
-                playlistIndex = i;
-                break;
-            }
-        }
-
-        if (playlistIndex == -1) {
-            printf("Playlist dengan nama '%s' tidak ditemukan.\n", playlistName);
+        if (playlistID < 1 || playlistID > app->playlists.numPlaylists) {
+            printf("ID Playlist tidak valid.\n");
             return;
         }
 
-        // Add song to the found playlist
-        addSongToPlaylist(&(app->playlists.playlist[playlistIndex]), songName, singerName, albumName, songID);
-        printf("Berhasil menambahkan lagu \"%s\" ke playlist \"%s\".\n", songName, playlistName);
+        // Add song to the selected playlist
+        addSongToPlaylist(&(app->playlists.playlist[playlistID - 1]), songName, singerName, albumName, songID);
+        printf("Berhasil menambahkan lagu \"%s\" ke playlist dengan ID %d.\n", songName, playlistID);
     }
-    else if(strcmp(command, "ALBUM") == 0){
+    else if (strcmp(command, "ALBUM") == 0) {
         printf("Daftar Penyanyi:\n");
         for (int i = 0; i < app->singers.numSingers; i++) {
             printf("%d. %s\n", i + 1, app->singers.singers[i].singerName);
@@ -150,40 +142,34 @@ void playlistAdd(const char *command, App *app){
             return;
         }
 
-        // Ask for playlist name to add the entire album
+        // Ask for playlist ID to add the entire album
         printf("Daftar Playlist:\n");
         for (int i = 0; i < app->playlists.numPlaylists; i++) {
             printf("%d. %s\n", i + 1, app->playlists.playlist[i].playlistName);
         }
 
-        char playlistName[100];
-        printf("Masukkan Nama Playlist: ");
-        scanf(" %[^\n]", playlistName);
+        int playlistID;
+        printf("Masukkan ID Playlist: ");
+        scanf("%d", &playlistID);
 
-        int playlistIndex = -1;
-        for (int i = 0; i < app->playlists.numPlaylists; i++) {
-            if (strcmp(app->playlists.playlist[i].playlistName, playlistName) == 0) {
-                playlistIndex = i;
-                break;
-            }
-        }
-
-        if (playlistIndex == -1) {
-            printf("Playlist dengan nama '%s' tidak ditemukan.\n", playlistName);
+        if (playlistID < 1 || playlistID > app->playlists.numPlaylists) {
+            printf("ID Playlist tidak valid.\n");
             return;
         }
 
-        // Add entire album to the found playlist
+        // Add entire album to the selected playlist
         for (int i = 0; i < app->singers.singers[singerIndex].albums[albumIndex].size; i++) {
             const char *songName = app->singers.singers[singerIndex].albums[albumIndex].songs[i]->songName;
-            addSongToPlaylist(&(app->playlists.playlist[playlistIndex]), songName, singerName, albumName, i + 1);
+            addSongToPlaylist(&(app->playlists.playlist[playlistID - 1]), songName, singerName, albumName, i + 1);
         }
-        printf("Berhasil menambahkan semua lagu dari album \"%s\" ke playlist \"%s\".\n", albumName, playlistName);
+        printf("Berhasil menambahkan semua lagu dari album \"%s\" ke playlist dengan ID %d.\n", albumName, playlistID);
     }
     else {
         printf("Subcommand '%s' untuk menambahkan ke playlist tidak dikenali.\n", command);
     }
 }
+
+
 
 void showPlaylistData(int id, App *app) {
     if (id < 1 || id > app->playlists.numPlaylists) {

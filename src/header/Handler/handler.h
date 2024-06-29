@@ -12,14 +12,12 @@
 #include "../../header/Handler/handlerSong.h"
 #include "../../header/Handler/handlerQueue.h"
 #include "../../shared/boolean.h"
+#include "../../header/File/save.h"
+#include "../../header/File/load.h"
 
 void startup();
 
 void menu(App *app); 
-
-void saveCommand(); 
-
-void loadCommand(); 
 
 void help(); 
 

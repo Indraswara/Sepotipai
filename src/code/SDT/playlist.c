@@ -2,7 +2,7 @@
 
 // this is playlists 
 void initializePlaylists(Playlists *playlists) {
-    playlists->playlist = NULL;
+    playlists->playlist = (Playlist *)malloc(sizeof(Playlist));
     playlists->numPlaylists = 0;
     playlists->capacity = 0;
 }
@@ -10,7 +10,7 @@ void initializePlaylists(Playlists *playlists) {
 void addPlaylist(Playlists *playlists, const char *playlistName) {
     if (playlists->numPlaylists >= playlists->capacity) {
         int newCapacity = (playlists->capacity == 0) ? 1 : playlists->capacity * 2;
-        Playlist *newPlaylists = realloc(playlists->playlist, newCapacity * sizeof(Playlist));
+    Playlist *newPlaylists = realloc(playlists->playlist, newCapacity * sizeof(Playlist));
         if (newPlaylists == NULL) {
             fprintf(stderr, "Memory allocation failed.\n");
             exit(EXIT_FAILURE);
@@ -19,14 +19,14 @@ void addPlaylist(Playlists *playlists, const char *playlistName) {
         playlists->capacity = newCapacity;
     }
 
-    playlists->playlist[playlists->numPlaylists].playlistName = malloc(strlen(playlistName) + 1);
+    playlists->playlist[playlists->numPlaylists].playlistName = (char *)malloc(strlen(playlistName));
     if (playlists->playlist[playlists->numPlaylists].playlistName == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
     strcpy((char *)playlists->playlist[playlists->numPlaylists].playlistName, playlistName);
 
-    printf("%s successfully added\n", playlistName);
+    printf("%s successfully added\n", playlists->playlist[playlists->numPlaylists].playlistName);
     playlists->numPlaylists++;
 }
 
@@ -85,13 +85,13 @@ Playlist *createPlaylist(const char *playlistName) {
         exit(EXIT_FAILURE);
     }
 
-    playlist->playlistName = (const char *)malloc(strlen(playlistName) + 1);
+    playlist->playlistName = (char*)malloc(strlen(playlistName));
     if (playlist->playlistName == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
         free(playlist);
         exit(EXIT_FAILURE);
     }
-    strcpy((char *)playlist->playlistName, playlistName);
+    strcpy((char *)(playlist->playlistName), playlistName);
 
     playlist->songs = NULL;
     playlist->numSongs = 0;
@@ -122,7 +122,7 @@ void addSongToPlaylist(Playlist *playlist, const char *songName, const char *art
         playlist->songs = newSongs;
         playlist->capacity = newCapacity;
     }
-
+    
     playlist->songs[playlist->numSongs].songName = strdup(songName);
     playlist->songs[playlist->numSongs].artistName = strdup(artistName);
     playlist->songs[playlist->numSongs].albumName = strdup(albumName);

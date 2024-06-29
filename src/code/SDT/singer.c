@@ -58,8 +58,6 @@ void printSingerDiscography(const Singer *singer) {
     printf("Singer's Discography:\n");
     for (int i = 0; i < singer->numAlbums; ++i) {
         printf("%d. %s\n", i + 1, singer->albums[i].name);
-        // Optionally, print each album's songs:
-        // printAlbumSongs(&(singer->albums[i]));
     }
 }
 

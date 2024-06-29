@@ -4,7 +4,9 @@
 #include <string.h>
 
 void createAlbum(Album *album, const char *name, int capacity) {
-    album->name = name;
+    album->name = (char*)malloc(strlen(name));
+    memcpy((void *)album->name, name, strlen(name)); 
+    // album->name = name;
     album->capacity = capacity;
     album->size = 0;
     album->songs = (Song**)malloc(capacity * sizeof(Song*));
